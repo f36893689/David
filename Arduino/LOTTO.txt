@@ -1,0 +1,149 @@
+#include "Tone.h"
+int i = 0;
+int k;
+int count;
+int r;
+int buttonState = 0;
+int lastButtonState = 0;
+int delaytime ;
+int buzzer=9;
+bool ini = true;
+void setup() {
+  for(int i=3;i<9;i++)
+  pinMode(i,OUTPUT);
+  pinMode(2,INPUT);
+  pinMode(buzzer,OUTPUT);
+  Serial.begin(9600);
+  randomSeed(analogRead(A0));
+  // put your setup code here, to run once:
+
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+  buttonState  = digitalRead(2);
+  if(ini)
+  {
+    delaytime=1000;
+    k=0;
+    count=0;
+    for(int i=3;i<9;i++)
+    digitalWrite(i,LOW);
+    if(buttonState!=lastButtonState)
+  {
+    if(buttonState){
+      ini = false;
+    }
+    delay(50);
+  }
+  lastButtonState = buttonState;
+  }
+  else
+  {
+    if(k<3){
+    for(int i=3;i<9;i++)
+    {
+      digitalWrite(i,HIGH);
+      tone(buzzer,NOTE_E4,100);
+    }
+    delay(1000);
+     for(int i=3;i<9;i++)
+    {
+      digitalWrite(i,LOW);
+      tone(buzzer,NOTE_F4,100);
+
+    }
+    delay(1000);
+    k++;
+    }
+
+   else{
+    Serial.print("count");
+    Serial.println(count);
+      if(count<50) 
+      {
+        r = random(3,9);
+        digitalWrite(r,HIGH);
+        tone(buzzer,NOTE_C4,100);
+        
+        delay(delaytime);
+        digitalWrite(r,LOW);
+        delaytime-=100;
+        if(delaytime<=100)
+        delaytime=100;
+        count++;
+      }
+      else{
+        
+        Serial.print("r:");
+        Serial.println(r);
+        
+         digitalWrite(r,HIGH);
+        
+         if(r==3){
+            tone(buzzer, 523.25, 133);
+    delay(133);
+    tone(buzzer, 523.25, 133);
+    delay(133);
+    tone(buzzer, 523.25, 133);
+    delay(133);
+    tone(buzzer, 523.25, 400);
+    delay(400);
+    tone(buzzer, 415.30, 400);
+    delay(400);
+    tone(buzzer, 466.16, 400);
+    delay(400);
+    tone(buzzer, 523.25, 133);
+    delay(133);
+    delay(133);
+    tone(buzzer, 466.16, 133);
+    delay(133);
+    tone(buzzer, 523.25, 1200);
+    delay(1200);
+    noTone(buzzer);
+         }
+        else
+        {
+          tone(buzzer,NOTE_G4);
+          delay(250);
+          tone(buzzer,NOTE_C4);
+          delay(500);
+          noTone(buzzer);
+        }
+         delay(5000);
+         for(int i=3;i<9;i++)
+         digitalWrite(i,LOW);
+        
+         digitalWrite(8,HIGH);
+         tone(buzzer,NOTE_G4);
+         delay(500);
+         digitalWrite(8,LOW);
+
+         digitalWrite(7,HIGH);
+         tone(buzzer,NOTE_F4);
+         delay(500);
+         digitalWrite(7,LOW);
+         
+         digitalWrite(6,HIGH);
+         tone(buzzer,NOTE_E4);
+         delay(500);
+         digitalWrite(6,LOW);
+         
+         digitalWrite(5,HIGH);
+         tone(buzzer,NOTE_D4);
+         delay(500);
+         digitalWrite(5,LOW);
+         
+         digitalWrite(4,HIGH);
+         tone(buzzer,NOTE_C4);
+         delay(500);
+         digitalWrite(4,LOW);
+         noTone(buzzer);
+         ini = true;
+      }
+   }
+    
+  }
+
+  
+ }
